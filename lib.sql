@@ -51,3 +51,59 @@ begin
     end if;
 end;
 $function$;
+
+-- ---------------------------------------------------------------------
+-- Helper to wrap st_pointonsurface, st_makevalid.
+-- This is needed because of a st_pointonsurface bug in geos < 3.3.8 where
+-- POLYGON EMPTY can pass through as a polygon geometry.
+--
+-- select st_geometrytype(st_pointonsurface(st_geomfromtext('POLYGON EMPTY')));
+-- > ST_Polygon
+CREATE OR REPLACE FUNCTION public.topoint(geom geometry(Geometry, 900913))
+ RETURNS geometry(Point, 900913)
+ LANGUAGE plpgsql IMMUTABLE
+AS $function$
+begin
+    if geometrytype(geom) = 'POINT' then
+        return geom;
+    elsif st_isempty(st_makevalid(geom)) then
+        -- This should not be necessary with Geos >= 3.3.7, but we're getting
+        -- mystery MultiPoint objects from ST_MakeValid (or somewhere) when
+        -- empty objects are input.
+        return NULL;
+    else
+        return st_pointonsurface(st_makevalid(geom));
+    end if;
+end;
+$function$;
+
+-- ---------------------------------------------------------------------
+-- Clean integer
+
+create or replace function clean_int(i text)
+    returns integer
+    immutable
+    language plpgsql as
+$$
+begin
+    return cast(i as integer);
+exception
+    when invalid_text_representation then
+        return null;
+    when numeric_value_out_of_range then
+        return null;
+end;
+$$;
+
+-- ---------------------------------------------------------------------
+-- ZRES
+-- Takes a web mercator zoom level and returns the pixel resolution for that
+-- scale, assuming 256x256 pixel tiles. Non-integer zoom levels are accepted.
+create or replace function zres(z float)
+    returns float
+    language plpgsql immutable
+as $func$
+begin
+    return (40075016.6855785/(256*2^z));
+end;
+$func$;
