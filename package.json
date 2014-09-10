@@ -2,5 +2,8 @@
     "name": "postgis-vt-util",
     "version": "0.0.0",
     "description": "PostGIS helper functions for making vector tiles",
-    "main": "./package.json"
+    "main": "./package.json",
+    "scripts": {
+        "test": "test/sql-test.sh"
+    }
 }
