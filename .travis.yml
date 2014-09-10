@@ -1,10 +1,10 @@
-cache: apt
 language: node_js
 node_js:
   - "0.10"
 addons:
   postgresql: 9.3
 before_install:
-- sudo test/postgres-setup.sh
+- psql -U postgres -c "create database testdb"
+- psql -U postgres -d testdb -c "create extension postgis"
 script:
 - sudo test/sql-test.sh

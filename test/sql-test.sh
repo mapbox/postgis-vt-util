@@ -5,13 +5,6 @@ passcount=0
 failcount=0
 
 psql="psql -U postgres -d testdb"
-dbexists=$(psql -U postgres -l | grep testdb | wc -l)
-if [ $dbexists > 0 ]; then
-    dropdb -U postgres testdb
-fi
-createdb -U postgres testdb
-
-$psql -c "CREATE EXTENSION postgis"
 $psql -f $(dirname $0)/../lib.sql
 
 function tf() {
