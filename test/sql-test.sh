@@ -24,6 +24,8 @@ function tf() {
 echo -e "testing clean_int:"
 tf clean_int "'123'"            "123"
 tf clean_int "'foobar'"         "\\N"
+tf clean_int "'2147483647'"     "2147483647"  # largest possible int
+tf clean_int "'-2147483648'"    "-2147483648"  # smallest possible int
 tf clean_int "'9999999999'"     "\\N"  # out of range, returns null
 tf clean_int "'123.456'"        "123"  # round down
 tf clean_int "'456.789'"        "457"  # round up
