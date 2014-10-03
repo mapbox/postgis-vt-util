@@ -86,7 +86,7 @@ create or replace function clean_int(i text)
     language plpgsql as
 $$
 begin
-    return cast(i as integer);
+    return cast(cast(i as float) as integer);
 exception
     when invalid_text_representation then
         return null;
