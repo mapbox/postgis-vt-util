@@ -3,7 +3,7 @@ postgis-vt-util
 
 postgres helper functions for making vector tiles in [Mapbox Studio]()
 
-## `z`
+## z
 
 Given the !scale_denominator! mapnik token, returns a zoom level. Lets you to control at which zoom levels features appear.
 
@@ -12,16 +12,16 @@ Given the !scale_denominator! mapnik token, returns a zoom level. Lets you to co
 **Example:**
 
 ```sql
-( select
+( SELECT
     some, attributes,
     geom_generalized
-  from your_table
+  FROM your_table
   where z(!scale_denominator!) in (10,11,12)
   union ALL
-  select
+  SELECT
     some, attributes,
     geom_not_generalized
-  from your_table
+  FROM your_table
   where z(!scale_denominator!) >= 13
 ) as data
 ```
@@ -34,20 +34,26 @@ De-duplicates features based on a given grid size, letting you control feature d
 
 **Example:**
 
-## topoint
-
-Performs a per-vector tile [point-on-surface](http://postgis.net/docs/ST_PointOnSurface.html)operation, returning a point geometry for a given polygon geometry. Good for generating only one label for polygon features.
-
-**Arguments:** geometry [geometry]
-
-**Example:**
+```sql
+( SELECT
+    disctinct on(labelgrid(geom, 128, !pixel_width!))
+    some, other, attributes
+  FROM your_table
+) AS data
+```
 
 ## linelabel
 
 Select only those line geometries long enough to be labeled; drops all line geometries too short for mapnik to place a label. Linelabel compares line length to the length of a user-supplied label field.
 
-**Arguments:** label [text field], geometry [geometry]
+**Arguments:** zoom [integer], label [text field], geometry [geometry]
 
 **Example:**
 
-
+```sql
+( SELECT
+    name, geom
+  FROM your_table
+  WHERE linelabel(z(!scale_denominator!), name, geom)
+) AS data
+```
