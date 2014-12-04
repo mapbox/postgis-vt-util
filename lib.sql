@@ -23,7 +23,7 @@ CREATE OR REPLACE FUNCTION public.labelgrid(geometry geometry(Geometry, 900913),
 AS $function$
 begin
     if pixel_width = 0 then
-        return 'null';
+        return null;
     end if;
     return st_astext(st_snaptogrid(
             geometry,
