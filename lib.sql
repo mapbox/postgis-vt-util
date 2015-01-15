@@ -107,3 +107,34 @@ begin
     return (40075016.6855785/(256*2^z));
 end;
 $func$;
+
+-- ---------------------------------------------------------------------
+-- MERC_BUFFER
+-- Calculates a buffer on a Web Mercator geometry that is scaled to
+-- approximate real-world units based on latitude. Accuracy decreases for
+-- larger buffer distances and at extreme latitudes.
+create or replace function public.merc_buffer(geom geometry, distance numeric)
+    returns geometry
+    language plpgsql immutable as
+$function$
+begin
+    return st_buffer(
+        geom,
+        distance / cos(radians(st_y(st_transform(st_centroid(geom),4326))))
+    );
+end;
+$function$;
+
+-- ---------------------------------------------------------------------
+-- MERC_LENGTH
+-- Calculates the approximate real-world length of a line on a Web
+-- Mercator grid. Less accurate but faster than geography calculation.
+-- Accuracy decreases for larger y-axis ranges of the input.
+create or replace function public.merc_length(geom geometry)
+    returns numeric
+    language plpgsql immutable as
+$function$
+begin
+    return st_length(geom) * cos(radians(st_y(st_transform(st_centroid(geom),4326))));
+end;
+$function$;
