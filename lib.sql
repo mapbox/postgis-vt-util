@@ -126,6 +126,26 @@ end;
 $function$;
 
 -- ---------------------------------------------------------------------
+-- MERC_DWITHIN
+-- Like ST_DWithin but adjusted by latitude to approximate real-world
+-- distances. Assumes input geometries are Web Mercator.
+create or replace function public.merc_dwithin(
+        geom1 geometry,
+        geom2 geometry,
+        distance numeric)
+    returns boolean
+    language plpgsql immutable as
+$function$
+begin
+    return st_dwithin(
+        geom1,
+        geom2,
+        distance / cos(radians(st_y(st_transform(st_centroid(geom1),4326))))
+    );
+end;
+$function$;
+
+-- ---------------------------------------------------------------------
 -- MERC_LENGTH
 -- Calculates the approximate real-world length of a line on a Web
 -- Mercator grid. Less accurate but faster than geography calculation.
