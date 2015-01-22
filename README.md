@@ -57,3 +57,21 @@ Select only those line geometries long enough to be labeled; drops all line geom
   WHERE linelabel(z(!scale_denominator!), name, geom)
 ) AS data
 ```
+
+## merc_buffer
+
+Wrapper for ST_Buffer that adjusts distance by latitude to approximate real-world measurements. Assumes input geometries are Web Mercator and input distances are real-world meters. Accuracy decreases for larger buffer distances and at extreme latitudes.
+
+**Arguments:** geometry [geometry], distance in meters [numeric]
+
+## merc_dwithin
+
+Wrapper for ST_DWithin that adjusts distance by latitude to approximate real-world measurements. Assumes input geometries are Web Mercator and input distances are real-world meters. Accuracy decreases for larger distances and at extreme latitudes.
+
+**Arguments:** geometry a [geometry], geometry b [geometry], distance in meters [numeric]
+
+## merc_length
+
+Wrapper for ST_Length that adjusts distance by latitude to approximate real-world measurements. Assumes input geometries are Web Mercator. Accuracy decreases for larger y-axis ranges of the input.
+
+**Arguments:** geometry [geometry]

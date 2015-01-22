@@ -110,9 +110,10 @@ $func$;
 
 -- ---------------------------------------------------------------------
 -- MERC_BUFFER
--- Calculates a buffer on a Web Mercator geometry that is scaled to
--- approximate real-world units based on latitude. Accuracy decreases for
--- larger buffer distances and at extreme latitudes.
+-- Wrapper for ST_Buffer that adjusts distance by latitude to approximate
+-- real-world measurements. Assumes input geometries are Web Mercator and
+-- input distances are real-world meters. Accuracy decreases for larger
+-- buffer distances and at extreme latitudes.
 create or replace function public.merc_buffer(geom geometry, distance numeric)
     returns geometry
     language plpgsql immutable as
@@ -127,8 +128,10 @@ $function$;
 
 -- ---------------------------------------------------------------------
 -- MERC_DWITHIN
--- Like ST_DWithin but adjusted by latitude to approximate real-world
--- distances. Assumes input geometries are Web Mercator.
+-- Wrapper for ST_DWithin that adjusts distance by latitude to approximate
+-- real-world measurements. Assumes input geometries are Web Mercator and
+-- input distances are real-world meters. Accuracy decreases for larger
+-- distances and at extreme latitudes.
 create or replace function public.merc_dwithin(
         geom1 geometry,
         geom2 geometry,
@@ -147,8 +150,8 @@ $function$;
 
 -- ---------------------------------------------------------------------
 -- MERC_LENGTH
--- Calculates the approximate real-world length of a line on a Web
--- Mercator grid. Less accurate but faster than geography calculation.
+-- Wrapper for ST_Length that adjusts distance by latitude to approximate
+-- real-world measurements. Assumes input geometries are Web Mercator.
 -- Accuracy decreases for larger y-axis ranges of the input.
 create or replace function public.merc_length(geom geometry)
     returns numeric
