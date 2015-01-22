@@ -57,6 +57,24 @@ tf topoint "ST_GeomFromText('POLYGON((0 0, 10 0, 10 10, 0 10, 0 0))',900913)" \
 tf topoint "ST_GeomFromText('POLYGON((0 0, 10 0, 0 10, 10 10, 0 0))',900913)" \
     "010100002031BF0D0000000000000014400000000000000440"
 
+echo -e "testing merc_buffer:"
+tf floor "ST_Area(merc_buffer(ST_GeomFromText('LINESTRING(0 0, 1000 1000)', 900913), 500))" \
+    "2194574"
+tf floor "ST_Area(merc_buffer(ST_GeomFromText('POINT(0 8500000)', 900913), 500))" \
+    "3207797"
+
+echo -e "testing merc_dwithin:"
+tf merc_dwithin "ST_GeomFromText('POINT(0 0)',3857), ST_GeomFromText('POINT(60 0)',3857), 50.0" \
+    "f"
+tf merc_dwithin "ST_GeomFromText('POINT(0 8500000)',3857), ST_GeomFromText('POINT(60 8500000)',3857), 50.0" \
+    "t"
+
+echo -e "testing merc_length:"
+tf merc_length "ST_GeomFromText('LINESTRING(0 0, 10000 0)', 900913)" \
+    "10000"
+tf merc_length "ST_GeomFromText('LINESTRING(0 8500000, 10000 8500000)', 900913)" \
+    "4932.24215371697"
+
 # summary:
 echo -e "$passcount tests passed | $failcount tests failed"
 

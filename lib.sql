@@ -107,3 +107,57 @@ begin
     return (40075016.6855785/(256*2^z));
 end;
 $func$;
+
+-- ---------------------------------------------------------------------
+-- MERC_BUFFER
+-- Wrapper for ST_Buffer that adjusts distance by latitude to approximate
+-- real-world measurements. Assumes input geometries are Web Mercator and
+-- input distances are real-world meters. Accuracy decreases for larger
+-- buffer distances and at extreme latitudes.
+create or replace function public.merc_buffer(geom geometry, distance numeric)
+    returns geometry
+    language plpgsql immutable as
+$function$
+begin
+    return st_buffer(
+        geom,
+        distance / cos(radians(st_y(st_transform(st_centroid(geom),4326))))
+    );
+end;
+$function$;
+
+-- ---------------------------------------------------------------------
+-- MERC_DWITHIN
+-- Wrapper for ST_DWithin that adjusts distance by latitude to approximate
+-- real-world measurements. Assumes input geometries are Web Mercator and
+-- input distances are real-world meters. Accuracy decreases for larger
+-- distances and at extreme latitudes.
+create or replace function public.merc_dwithin(
+        geom1 geometry,
+        geom2 geometry,
+        distance numeric)
+    returns boolean
+    language plpgsql immutable as
+$function$
+begin
+    return st_dwithin(
+        geom1,
+        geom2,
+        distance / cos(radians(st_y(st_transform(st_centroid(geom1),4326))))
+    );
+end;
+$function$;
+
+-- ---------------------------------------------------------------------
+-- MERC_LENGTH
+-- Wrapper for ST_Length that adjusts distance by latitude to approximate
+-- real-world measurements. Assumes input geometries are Web Mercator.
+-- Accuracy decreases for larger y-axis ranges of the input.
+create or replace function public.merc_length(geom geometry)
+    returns numeric
+    language plpgsql immutable as
+$function$
+begin
+    return st_length(geom) * cos(radians(st_y(st_transform(st_centroid(geom),4326))));
+end;
+$function$;
