@@ -96,6 +96,24 @@ end;
 $$;
 
 -- ---------------------------------------------------------------------
+-- Clean numeric
+
+create or replace function clean_numeric(i text)
+    returns numeric
+    immutable
+    language plpgsql as
+$$
+begin
+    return cast(cast(i as float) as numeric);
+exception
+    when invalid_text_representation then
+        return null;
+    when numeric_value_out_of_range then
+        return null;
+end;
+$$;
+
+-- ---------------------------------------------------------------------
 -- ZRES
 -- Takes a web mercator zoom level and returns the pixel resolution for that
 -- scale, assuming 256x256 pixel tiles. Non-integer zoom levels are accepted.

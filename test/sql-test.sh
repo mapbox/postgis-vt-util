@@ -30,6 +30,12 @@ tf clean_int "'9999999999'"     "\\N"  # out of range, returns null
 tf clean_int "'123.456'"        "123"  # round down
 tf clean_int "'456.789'"        "457"  # round up
 
+echo -e "testing clean_numeric:"
+tf clean_numeric "'123'"            "123"
+tf clean_numeric "'foobar'"         "\\N"
+tf clean_numeric "'123.456'"        "123.456"  
+tf clean_numeric "'456.789'"        "456.789"
+
 echo -e "testing z:"
 tf z "1000000000" "\\N"
 tf z "500000000" "0"
