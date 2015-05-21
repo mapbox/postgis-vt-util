@@ -75,3 +75,9 @@ Wrapper for ST_DWithin that adjusts distance by latitude to approximate real-wor
 Wrapper for ST_Length that adjusts distance by latitude to approximate real-world measurements. Assumes input geometries are Web Mercator. Accuracy decreases for larger y-axis ranges of the input.
 
 **Arguments:** geometry [geometry]
+
+## tile_bbox
+
+Given a Web Mercator tile ID as (z, x, y), returns a bounding-box geometry of the area covered by that tile.
+
+**Arguments:** zoom_level [integer], x_tile [integer], y_tile [integer]
