@@ -179,3 +179,24 @@ begin
     return st_length(geom) * cos(radians(st_y(st_transform(st_centroid(geom),4326))));
 end;
 $function$;
+
+-- ---------------------------------------------------------------------
+-- TILE_BBOX
+-- Given a Web Mercator tile ID as (z, x, y), returns a bounding-box
+-- geometry of the area covered by that tile.
+create or replace function tile_bbox(z int, x int, y int)
+    returns geometry(geometry)
+    language plpgsql immutable as
+$$
+declare
+    max numeric := 20037508.34;
+    res numeric := (max*2)/(2^z);
+begin
+    return st_makeenvelope(
+        -max + (x * res),
+        -max + (y * res),
+        -max + (x * res) + res,
+        -max + (y * res) + res,
+        3857);
+end;
+$$;
