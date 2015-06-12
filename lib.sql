@@ -194,9 +194,9 @@ declare
 begin
     return st_makeenvelope(
         -max + (x * res),
-        -max + (y * res),
+        max - (y * res),
         -max + (x * res) + res,
-        -max + (y * res) + res,
+        max - (y * res) - res,
         3857);
 end;
 $$;
