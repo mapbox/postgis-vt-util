@@ -1,10 +1,11 @@
 language: node_js
 node_js:
   - "0.10"
+sudo: false
 addons:
   postgresql: 9.3
 before_install:
-- psql -U postgres -c "create database testdb"
-- psql -U postgres -d testdb -c "create extension postgis"
+- psql -U postgres -c "create database testing_postgis_vt_util"
+- psql -U postgres -d testing_postgis_vt_util -c "create extension postgis"
 script:
-- sudo test/sql-test.sh
+- npm test

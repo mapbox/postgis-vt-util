@@ -6,12 +6,7 @@ failcount=0
 runcount=0
 testtotal=$(grep -c '^tf ' "$0")
 
-pgdb=testing_postgis_vt_util
-psql="psql -q -U postgres"
-psqld="$psql -d $pgdb"
-$psql -c "drop database $pgdb" &> /dev/null || true
-$psql -c "create database $pgdb" &> /dev/null
-$psqld -c "create extension if not exists postgis" &> /dev/null
+psqld="psql -q -U postgres -d testing_postgis_vt_util"
 $psqld -f "$(dirname "$0")/../postgis-vt-util.sql" &> /dev/null
 
 function tf() {
