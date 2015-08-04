@@ -126,8 +126,23 @@ __Parameters:__
 - `geometry(point)` p0 - The starting point of the arc.
 - `geometry(point)` p1 - A point along the path of th arc.
 - `geometry(point)` p2 - The end point of the arc.
+- `integer` srid (optional) - Sets the SRID of the output geometry. Useful
+  when input points have no SRID. If not specified the SRID of the first
+  input geometry will be assigned to the output.
 
 __Returns:__ `geometry(linestring)`
+
+__Examples:__
+
+
+```sql
+SELECT MakeArc(
+    ST_MakePoint(-100, 0),
+    ST_MakePoint(0, 100),
+    ST_MakePoint(100, 0),
+    3857
+);
+```
 
 
 ### MercBuffer ###
