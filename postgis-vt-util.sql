@@ -486,7 +486,7 @@ __Parameters:__
 
 __Returns:__ `geometry(point)`
 
-__Example:
+__Example:__
 
 ```sql
 -- Create an additional point geometry colums for labeling
