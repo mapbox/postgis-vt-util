@@ -28,6 +28,12 @@ function tf() {
 echo "TAP version 13"
 echo "1..$testtotal"
 
+# Bounds
+tf Bounds "ST_GeomFromText('LINESTRING(100 100, 300 300)', 3857)" \
+    "{100,100,300,300}"
+tf Bounds "ST_GeomFromText('LINESTRING(100 100, 300 300)', 3857), 4326" \
+    "{0.000898315284119521,0.00089831528408666,0.00269494585235856,0.0026949458513567}"
+
 # CleanInt
 tf CleanInt "'123'"            "123"
 tf CleanInt "'foobar'"         "\\N"
