@@ -43,6 +43,20 @@ __Parameters:__
 __Returns:__ `float[]` - an array of 4 floats, `{xmin, ymin, xmax, ymax}`
 
 
+### ChaikinSmooth ###
+
+Smooths a line or polygon using George Chaikin's corner-cutting algorithm.
+
+<http://www.idav.ucdavis.edu/education/CAGDNotes/Chaikins-Algorithm.pdf>
+
+__Parameters:__
+
+- `geometry` g - A (multi)linestring or (multi)polygon
+- `integer`steps - Number of smoothing iterations to run. Defaults to 1.
+
+__Returns:__ `geometry`
+
+
 ### CleanInt ###
 
 Returns the input text as an integer if possible, otherwise null.
