@@ -10,7 +10,7 @@ preparation stages.
 Installation
 ------------
 
-Everything you need is in `dist/postgis-vt-util.sql`. This project is also
+Everything you need is in `postgis-vt-util.sql`. This project is also
 available [as an NPM module][2] if that's useful to your workflow.
 
 [2]: https://www.npmjs.com/package/postgis-vt-util
