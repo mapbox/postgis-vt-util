@@ -108,7 +108,7 @@ Returns the largest single part of a multigeometry.
   with the longest length.
 - Given a single point, line, or polygon, the original geometry will be
   returned.
-- Given any other geometry type the result of ST_GeometryN(<geom>, 1) will be
+- Given any other geometry type the result of `ST_GeometryN(<geom>, 1)` will be
   returned. (See the documentation for that function.)
 
 __Parameters:__
