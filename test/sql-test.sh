@@ -6,7 +6,7 @@ failcount=0
 runcount=0
 testtotal=$(grep -c '^tf ' "$0")
 
-psqld="psql -q -U postgres -d testing_postgis_vt_util"
+psqld="psql -AtqX -d testing_postgis_vt_util"
 $psqld -f "$(dirname "$0")/../postgis-vt-util.sql" &> /dev/null
 
 function tf() {
