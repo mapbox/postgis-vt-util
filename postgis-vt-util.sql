@@ -608,15 +608,16 @@ __Example Mapbox Studio query:__
 ******************************************************************************/
 create or replace function z (numeric)
   returns integer
-  language plpgsql immutable as
-$func$
-begin
+  language sql
+  immutable
+  returns null on null input
+as $func$
+select
+  case
     -- Don't bother if the scale is larger than ~zoom level 0
-    if $1 > 600000000 then
-        return null;
-    end if;
-    return round(log(2,559082264.028/$1));
-end;
+    when $1 > 600000000 or $1 = 0 then null
+    else cast (round(log(2,559082264.028/$1)) as integer)
+  end;
 $func$;
 
 
