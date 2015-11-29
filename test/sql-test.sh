@@ -126,6 +126,7 @@ tf ToPoint "ST_GeomFromText('POLYGON((0 0, 10 0, 0 10, 10 10, 0 0))',900913)" \
 tf Z "1000000000" "\\N"
 tf Z "500000000" "0"
 tf Z "1000" "19"
+tf Z "0" "\\N"
 
 # ZRes
 tf ZRes "0" "156543.033928041"
