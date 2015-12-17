@@ -1,7 +1,7 @@
 PostGIS Vector Tile Utils
 =========================
 
-A set of PostgeSQL functions that are useful when creating vector tile sources,
+A set of PostgreSQL functions that are useful when creating vector tile sources,
 either at the query stage in [Mapbox Studio][1] or in the earlier data
 preparation stages.
 
