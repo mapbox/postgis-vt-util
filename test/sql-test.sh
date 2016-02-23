@@ -131,6 +131,7 @@ tf Z "0" "\\N"
 # ZRes
 tf ZRes "0" "156543.033928041"
 tf ZRes "19" "0.29858214173897"
+tf ZRes "NULL" "\\N"
 
 if [[ $failcount -eq 0 ]]; then
     echo -n "# ok - "

@@ -573,13 +573,13 @@ DELETE FROM water_polygons WHERE sqrt(ST_Area(geom)) < ZRes(10);
 UPDATE water_polygons SET geom = ST_Simplify(geom, ZRes(10));
 ```
 ******************************************************************************/
-create or replace function ZRes (z float)
-    returns float
-    language plpgsql immutable as
+create or replace function ZRes (z integer)
+  returns float
+  language sql
+  immutable
+  returns null on null input
 $func$
-begin
-    return (40075016.6855785/(256*2^z));
-end;
+SELECT (40075016.6855785/(256*2^z));
 $func$;
 
 
