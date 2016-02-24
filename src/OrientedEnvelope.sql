@@ -1,7 +1,7 @@
 /******************************************************************************
 ### OrientedEnvelope ###
 
-Returns the oriented minimum-bounding rectangle of a geometry.
+Returns an oriented minimum-bounding rectangle for a geometry.
 
 __Parameters:__
 
