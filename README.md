@@ -251,6 +251,22 @@ __Parameters:__
 __Returns:__ `geometry`
 
 
+### Smooth ###
+
+Smooths the vertices of an input geometry using a simple moving-average-like
+approach. The output will have the same number of vertices as the input.
+
+There are 4 versions of the function, one each for inputs of linestring,
+multilinestring, polygon, & multipolygon.
+
+__Parameters:__
+
+- `geometry` g - A linestring, multilinestring, polygon, or multipolygon
+
+__Returns:__ `geometry` - a smoothed geometry of the same type and SRID as
+the input.
+
+
 ### TileBBox ###
 
 Given a Web Mercator tile ID as (z, x, y), returns a bounding-box
