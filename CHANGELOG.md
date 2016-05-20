@@ -1,6 +1,15 @@
 Changelog
 =========
 
+v1.1.0
+------
+
+- New function `Sieve` which filters inner and outer rings from a multipolygon
+  based on a minimum area threshold.
+- Z function converted to SQL from PL/PGSQL.
+- ZRes function converted to SQL from PL/PGSQL and overloaded to accept both
+  floats and integers.
+
 v1.0.0
 ------
 
