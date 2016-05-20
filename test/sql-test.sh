@@ -99,6 +99,13 @@ tf MercLength "ST_GeomFromText('LINESTRING(0 8500000, 10000 8500000)', 900913)" 
 tf ST_AsText "OrientedEnvelope(ST_GeomFromText('LINESTRING(0 0, 10 10, 8 12)'))" \
     "POLYGON((8 12,10 10,0 0,-2 2,8 12))"
 
+# Sieve
+tf ST_AsText "Sieve(ST_GeomFromText('MULTIPOLYGON(\
+    ((0 0,0 100,100 100,100 0,0 0),(10 10,12 10,12 12,10 12,10 10),(50 50,60 50,60 60,50 60,50 50)),\
+    ((200 200,200 202,202 202,202 200,200 200)),\
+    ((300 300,300 350,350 350,350 300,300 300)))'),10)" \
+    "MULTIPOLYGON(((0 0,0 100,100 100,100 0,0 0),(50 50,60 50,60 60,50 60,50 50)),((300 300,300 350,350 350,350 300,300 300)))"
+
 # SmartShrink
 tf floor "ST_Area(SmartShrink(ST_Buffer(ST_MakePoint(0,0),5000),0.5,true))" \
     "44602035"
