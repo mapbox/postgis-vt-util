@@ -295,7 +295,7 @@ scale, assuming 256x256 pixel tiles. Non-integer zoom levels are accepted.
 
 __Parameters:__
 
-- `float` z - A Web Mercator zoom level.
+- `integer` or `float` z - A Web Mercator zoom level.
 
 __Returns:__ `float`
 

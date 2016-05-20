@@ -134,10 +134,13 @@ tf Z "1000000000" "\\N"
 tf Z "500000000" "0"
 tf Z "1000" "19"
 tf Z "0" "\\N"
+tf Z "NULL" "\\N"
 
 # ZRes
 tf ZRes "0" "156543.033928041"
 tf ZRes "19" "0.29858214173897"
+tf ZRes "0.5" "110692.640838034"
+tf ZRes "NULL" "\\N"
 
 if [[ $failcount -eq 0 ]]; then
     echo -n "# ok - "
