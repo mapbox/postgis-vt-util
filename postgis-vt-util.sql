@@ -423,7 +423,7 @@ $func$;
 /******************************************************************************
 ### Sieve ###
 
-Filters small rings (both inner and outer) from a multipolygon bases on area.
+Filters small rings (both inner and outer) from a multipolygon based on area.
 
 __Parameters:__
 
