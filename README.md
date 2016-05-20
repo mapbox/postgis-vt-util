@@ -25,6 +25,7 @@ Function Reference
 
 <!-- DO NOT EDIT BELOW THIS LINE - AUTO-GENERATED FROM SQL COMMENTS -->
 
+
 ### Bounds ###
 
 Returns an array of the bounding coordinates of the input geometry -
@@ -217,6 +218,18 @@ __Parameters:__
 - `geometry` g - A geometry.
 
 __Returns:__ `geometry(polygon)`
+
+
+### Sieve ###
+
+Filters small rings (both inner and outer) from a multipolygon bases on area.
+
+__Parameters:__
+
+- `geometry` g - A multipolygon
+- `float` area_threshold - the minimum ring area to keep.
+
+__Returns:__ `geometry` - a polygon or multipolygon
 
 
 ### SmartShrink ###
