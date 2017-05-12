@@ -32,6 +32,9 @@ begin
         -- mystery MultiPoint objects from ST_MakeValid (or somewhere) when
         -- empty objects are input.
         return null;
+    elsif (GeometryType(g) = 'POLYGON' OR GeometryType(g) = 'MULTIPOLYGON') and ST_NPoints(g) <= 5 then
+        -- For simple polygons the centroid is good enough for label placement
+        return ST_Centroid(g);
     else
         return ST_PointOnSurface(g);
     end if;
