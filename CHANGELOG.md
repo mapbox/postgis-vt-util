@@ -1,6 +1,12 @@
 Changelog
 =========
 
+v1.2.1
+------
+
+- ToPoint function uses ST_Centroid for polygons with less than 5 nodes.
+- Package is now published to `@mapbox/postgis-vt-util`
+  
 v1.1.0
 ------
 
