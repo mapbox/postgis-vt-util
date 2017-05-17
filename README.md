@@ -1,4 +1,4 @@
-PostGIS Vector Tile Utils
+PostGIS Vector Tile Utils [![Build Status](https://travis-ci.org/mapbox/postgis-vt-util.svg?branch=master)](https://travis-ci.org/mapbox/postgis-vt-util)
 =========================
 
 A set of PostgreSQL functions that are useful when creating vector tile sources,
@@ -13,7 +13,7 @@ Installation
 Everything you need is in `postgis-vt-util.sql`. This project is also
 available [as an NPM module][2] if that's useful to your workflow.
 
-[2]: https://www.npmjs.com/package/postgis-vt-util
+[2]: https://www.npmjs.com/package/@mapbox/postgis-vt-util
 
 Load the file into your database with `psql` or whatever your usual method is.
 Eg:
