@@ -1,9 +1,9 @@
 {
-    "name": "postgis-vt-util",
-    "version": "1.1.0",
-    "description": "PostGIS helper functions for making vector tiles",
-    "main": "./package.json",
-    "scripts": {
-        "test": "test/sql-test.sh"
-    }
+  "name": "@mapbox/postgis-vt-util",
+  "version": "1.1.0",
+  "description": "PostGIS helper functions for making vector tiles",
+  "main": "./package.json",
+  "scripts": {
+    "test": "test/sql-test.sh"
+  }
 }
