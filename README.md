@@ -272,6 +272,8 @@ __Returns:__ `geometry(polygon)`
 Helper to wrap ST_PointOnSurface, ST_MakeValid. This is needed because
 of a ST_PointOnSurface bug in geos < 3.3.8 where POLYGON EMPTY can pass
 through as a polygon geometry.
+If the input geometry is a polygon with less than 5 points the ST_Centroid
+of the polygon will be used instead of ST_PointOnSurface to speed up calculation.
 
 __Parameters:__
 

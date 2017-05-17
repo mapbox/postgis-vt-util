@@ -569,6 +569,8 @@ $func$;
 Helper to wrap ST_PointOnSurface, ST_MakeValid. This is needed because
 of a ST_PointOnSurface bug in geos < 3.3.8 where POLYGON EMPTY can pass
 through as a polygon geometry.
+If the input geometry is a polygon with less than 5 points the ST_Centroid
+of the polygon will be used instead of ST_PointOnSurface to speed up calculation.
 
 __Parameters:__
 
@@ -597,6 +599,9 @@ begin
         -- mystery MultiPoint objects from ST_MakeValid (or somewhere) when
         -- empty objects are input.
         return null;
+    elsif (GeometryType(g) = 'POLYGON' OR GeometryType(g) = 'MULTIPOLYGON') and ST_NPoints(g) <= 5 then
+        -- For simple polygons the centroid is good enough for label placement
+        return ST_Centroid(g);
     else
         return ST_PointOnSurface(g);
     end if;
