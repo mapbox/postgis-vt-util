@@ -17,7 +17,7 @@ $func$
     with exploded as (
         -- First use ST_Dump to explode the input multipolygon
         -- to individual polygons.
-        select (ST_Dump(g)).geom
+        select (ST_Dump(ST_CollectionExtract(g, 3))).geom
     ), rings as (
         -- Next use ST_DumpRings to turn all of the inner and outer rings
         -- into their own separate polygons.
@@ -37,7 +37,7 @@ $func$
     with exploded as (
         -- First use ST_Dump to explode the input multipolygon
         -- to individual polygons.
-        select (ST_Dump(g)).geom
+        select (ST_Dump(ST_CollectionExtract(g, 3))).geom
     ), rings as (
         -- Next use ST_DumpRings to turn all of the inner and outer rings
         -- into their own separate polygons.
