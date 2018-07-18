@@ -28,7 +28,7 @@ begin
         -- if length is 0 geom is (probably) a point; keep it
         return true;
     else
-        return length(label) between 1 and ST_Length(g)/(2^(20-zoom));
+        return pg_catalog.length(label) between 1 and ST_Length(g)/(2^(20-zoom));
     end if;
 end;
 $func$;

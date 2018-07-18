@@ -21,7 +21,7 @@ $func$
 begin
     return ST_Buffer(
         g,
-        distance / cos(radians(ST_Y(ST_Transform(ST_Centroid(g),4326))))
+        distance / pg_catalog.cos(pg_catalog.radians(ST_Y(ST_Transform(ST_Centroid(g),4326))))
     );
 end;
 $func$;
