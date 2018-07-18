@@ -1,6 +1,13 @@
 Changelog
 =========
 
+v1.2.2
+------
+
+- Change queries to call functions with a specific schema.object form, for
+  objects that exist in the pg_catalog, to mitigate the search_path 
+  vulnerability.
+
 v1.2.1
 ------
 
