@@ -31,7 +31,7 @@ select
   case
     -- Don't bother if the scale is larger than ~zoom level 0
     when $1 > 600000000 or $1 = 0 then null
-    else cast (round(log(2,559082264.028/$1)) as integer)
+    else cast (pg_catalog.round(pg_catalog.log(2,559082264.028/$1)) as integer)
   end;
 $func$;
 

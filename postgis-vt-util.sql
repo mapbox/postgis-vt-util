@@ -232,7 +232,7 @@ begin
         -- if length is 0 geom is (probably) a point; keep it
         return true;
     else
-        return length(label) between 1 and ST_Length(g)/(2^(20-zoom));
+        return pg_catalog.length(label) between 1 and ST_Length(g)/(2^(20-zoom));
     end if;
 end;
 $func$;
@@ -310,7 +310,7 @@ $func$
 begin
     return ST_Buffer(
         g,
-        distance / cos(radians(ST_Y(ST_Transform(ST_Centroid(g),4326))))
+        distance / pg_catalog.cos(pg_catalog.radians(ST_Y(ST_Transform(ST_Centroid(g),4326))))
     );
 end;
 $func$;
@@ -344,7 +344,7 @@ begin
     return ST_Dwithin(
         g1,
         g2,
-        distance / cos(radians(ST_Y(ST_Transform(ST_Centroid(g1),4326))))
+        distance / pg_catalog.cos(pg_catalog.radians(ST_Y(ST_Transform(ST_Centroid(g1),4326))))
     );
 end;
 $func$;
@@ -368,7 +368,7 @@ create or replace function MercLength (g geometry)
     language plpgsql immutable as
 $func$
 begin
-    return ST_Length(g) * cos(radians(ST_Y(ST_Transform(ST_Centroid(g),4326))));
+    return ST_Length(g) * pg_catalog.cos(pg_catalog.radians(ST_Y(ST_Transform(ST_Centroid(g),4326))));
 end;
 $func$;
 
@@ -681,7 +681,7 @@ select
   case
     -- Don't bother if the scale is larger than ~zoom level 0
     when $1 > 600000000 or $1 = 0 then null
-    else cast (round(log(2,559082264.028/$1)) as integer)
+    else cast (pg_catalog.round(pg_catalog.log(2,559082264.028/$1)) as integer)
   end;
 $func$;
 

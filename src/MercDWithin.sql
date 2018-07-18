@@ -26,7 +26,7 @@ begin
     return ST_Dwithin(
         g1,
         g2,
-        distance / cos(radians(ST_Y(ST_Transform(ST_Centroid(g1),4326))))
+        distance / pg_catalog.cos(pg_catalog.radians(ST_Y(ST_Transform(ST_Centroid(g1),4326))))
     );
 end;
 $func$;

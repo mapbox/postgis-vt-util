@@ -16,7 +16,7 @@ create or replace function MercLength (g geometry)
     language plpgsql immutable as
 $func$
 begin
-    return ST_Length(g) * cos(radians(ST_Y(ST_Transform(ST_Centroid(g),4326))));
+    return ST_Length(g) * pg_catalog.cos(pg_catalog.radians(ST_Y(ST_Transform(ST_Centroid(g),4326))));
 end;
 $func$;
 
