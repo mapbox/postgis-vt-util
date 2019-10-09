@@ -1,10 +1,16 @@
 language: node_js
+dist: bionic
 node_js:
-  - "0.10"
+  - 10
 sudo: false
+services:
+  - postgresql
 addons:
-  postgresql: 9.3
-before_install:
+  postgresql: 10
+  apt:
+    packages:
+    - postgresql-10-postgis-2.4
+before_script:
 - psql -U postgres -c "create database testing_postgis_vt_util"
 - psql -U postgres -d testing_postgis_vt_util -c "create extension postgis"
 script:

@@ -227,7 +227,7 @@ Filters small rings (both inner and outer) from a multipolygon based on area.
 __Parameters:__
 
 - `geometry` g - A multipolygon
-- `float` area_threshold - the minimum ring area to keep.
+- `anyelement` area_threshold - the minimum ring area to keep. Type must be either `float` or `integer`.
 
 __Returns:__ `geometry` - a polygon or multipolygon
 
