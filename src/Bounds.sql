@@ -18,7 +18,8 @@ __Returns:__ `float[]` - an array of 4 floats, `{xmin, ymin, xmax, ymax}`
 ******************************************************************************/
 create or replace function Bounds (g geometry, srid integer = null)
     returns float[]
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     if srid is not null then

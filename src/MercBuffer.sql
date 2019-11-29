@@ -16,7 +16,8 @@ __Returns:__ `geometry`
 ******************************************************************************/
 create or replace function MercBuffer (g geometry, distance numeric)
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return ST_Buffer(
