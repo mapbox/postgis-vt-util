@@ -11,7 +11,8 @@ __Returns:__ `numeric`
 ******************************************************************************/
 create or replace function CleanNumeric (i text)
     returns numeric
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $$
 begin
     return cast(cast(i as float) as numeric);

@@ -33,7 +33,8 @@ create or replace function MakeArc (
         srid integer default null
     )
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return ST_CurveToLine(ST_GeomFromText(

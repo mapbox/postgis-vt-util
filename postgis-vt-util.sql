@@ -18,7 +18,8 @@ __Returns:__ `float[]` - an array of 4 floats, `{xmin, ymin, xmax, ymax}`
 ******************************************************************************/
 create or replace function Bounds (g geometry, srid integer = null)
     returns float[]
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     if srid is not null then
@@ -48,7 +49,8 @@ __Returns:__ `integer`
 ******************************************************************************/
 create or replace function CleanInt (i text)
     returns integer
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return cast(cast(i as float) as integer);
@@ -74,7 +76,8 @@ __Returns:__ `numeric`
 ******************************************************************************/
 create or replace function CleanNumeric (i text)
     returns numeric
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $$
 begin
     return cast(cast(i as float) as numeric);
@@ -124,7 +127,8 @@ create or replace function LabelGrid (
         grid_size numeric
     )
     returns text
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     if grid_size <= 0 then
@@ -167,7 +171,8 @@ __Returns:__ `geometry` - The largest single part of the input geometry.
 ******************************************************************************/
 create or replace function LargestPart (g geometry)
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     -- Non-multi geometries can just pass through
@@ -225,7 +230,8 @@ create or replace function LineLabel (
         g geometry
     )
     returns boolean
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     if zoom > 20 or ST_Length(g) = 0 then
@@ -273,7 +279,8 @@ create or replace function MakeArc (
         srid integer default null
     )
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return ST_CurveToLine(ST_GeomFromText(
@@ -305,7 +312,8 @@ __Returns:__ `geometry`
 ******************************************************************************/
 create or replace function MercBuffer (g geometry, distance numeric)
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return ST_Buffer(
@@ -338,7 +346,8 @@ create or replace function MercDWithin (
         distance numeric
     )
     returns boolean
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return ST_Dwithin(
@@ -365,7 +374,8 @@ __Returns:__ `numeric`
 ******************************************************************************/
 create or replace function MercLength (g geometry)
     returns numeric
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return ST_Length(g) * cos(radians(ST_Y(ST_Transform(ST_Centroid(g),4326))));
@@ -386,7 +396,8 @@ __Returns:__ `geometry(polygon)`
 ******************************************************************************/
 create or replace function OrientedEnvelope (g geometry)
     returns geometry(polygon)
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 declare
     p record;
@@ -434,7 +445,8 @@ __Returns:__ `geometry` - a polygon or multipolygon
 ******************************************************************************/
 create or replace function Sieve (g geometry, area_threshold float)
     returns geometry
-    language sql immutable as
+    language sql immutable
+    parallel safe as
 $func$
     with exploded as (
         -- First use ST_Dump to explode the input multipolygon
@@ -454,7 +466,8 @@ $func$;
 
 create or replace function Sieve (g geometry, area_threshold integer)
     returns geometry
-    language sql immutable as
+    language sql immutable
+    parallel safe as
 $func$
     with exploded as (
         -- First use ST_Dump to explode the input multipolygon
@@ -498,7 +511,8 @@ create or replace function SmartShrink(
         simplify boolean = false
     )
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 declare
     full_area float := ST_Area(geom);
@@ -540,7 +554,8 @@ __Returns:__ `geometry(polygon)`
 ******************************************************************************/
 create or replace function TileBBox (z int, x int, y int, srid int = 3857)
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 declare
     max numeric := 20037508.34;
@@ -588,7 +603,8 @@ UPDATE city_park SET geom_label = ToPoint(geom);
 ******************************************************************************/
 create or replace function ToPoint (g geometry)
     returns geometry(point)
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     g := ST_MakeValid(g);
@@ -634,7 +650,8 @@ UPDATE water_polygons SET geom = ST_Simplify(geom, ZRes(10));
 create or replace function ZRes (z integer)
     returns float
     returns null on null input
-    language sql immutable as
+    language sql immutable
+    parallel safe as
 $func$
 select (40075016.6855785/(256*2^z));
 $func$;
@@ -642,7 +659,8 @@ $func$;
 create or replace function ZRes (z float)
     returns float
     returns null on null input
-    language sql immutable as
+    language sql immutable
+    parallel safe as
 $func$
 select (40075016.6855785/(256*2^z));
 $func$;
@@ -675,6 +693,7 @@ create or replace function z (numeric)
   returns integer
   language sql
   immutable
+  parallel safe
   returns null on null input
 as $func$
 select

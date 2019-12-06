@@ -13,7 +13,8 @@ __Returns:__ `numeric`
 ******************************************************************************/
 create or replace function MercLength (g geometry)
     returns numeric
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return ST_Length(g) * cos(radians(ST_Y(ST_Transform(ST_Centroid(g),4326))));

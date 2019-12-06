@@ -25,6 +25,7 @@ create or replace function z (numeric)
   returns integer
   language sql
   immutable
+  parallel safe
   returns null on null input
 as $func$
 select

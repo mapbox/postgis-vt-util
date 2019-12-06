@@ -21,7 +21,8 @@ __Returns:__ `geometry` - The largest single part of the input geometry.
 ******************************************************************************/
 create or replace function LargestPart (g geometry)
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     -- Non-multi geometries can just pass through

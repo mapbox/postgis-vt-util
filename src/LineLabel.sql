@@ -21,7 +21,8 @@ create or replace function LineLabel (
         g geometry
     )
     returns boolean
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     if zoom > 20 or ST_Length(g) = 0 then

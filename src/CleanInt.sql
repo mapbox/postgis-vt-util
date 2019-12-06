@@ -11,7 +11,8 @@ __Returns:__ `integer`
 ******************************************************************************/
 create or replace function CleanInt (i text)
     returns integer
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return cast(cast(i as float) as integer);
