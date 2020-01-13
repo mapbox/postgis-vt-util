@@ -1,11 +1,39 @@
+dist: xenial
 language: node_js
 node_js:
-  - "0.10"
-sudo: false
-addons:
-  postgresql: 9.3
-before_install:
-- psql -U postgres -c "create database testing_postgis_vt_util"
-- psql -U postgres -d testing_postgis_vt_util -c "create extension postgis"
+- lts/*
+
+sudo: required
+
+env:
+  global:
+    - PGUSER=postgres
+    - PGDATABASE=postgres
+    - PGOPTIONS='-c client_min_messages=NOTICE'
+    - PGPORT=5432
+
+jobs:
+  include:
+    - env: POSTGRESQL_VERSION="9.6" POSTGIS_VERSION="2.5"
+    - env: POSTGRESQL_VERSION="10" POSTGIS_VERSION="2.5"
+    - env: POSTGRESQL_VERSION="11" POSTGIS_VERSION="2.5"
+    - env: POSTGRESQL_VERSION="12" POSTGIS_VERSION="2.5"
+    - env: POSTGRESQL_VERSION="12" POSTGIS_VERSION="3"
+
 script:
-- npm test
+  - set -e
+  - sudo service postgresql stop;
+  - sudo apt-get remove postgresql* -y
+  - sudo apt-get install -y --allow-unauthenticated --no-install-recommends --no-install-suggests postgresql-$POSTGRESQL_VERSION postgresql-client-$POSTGRESQL_VERSION postgresql-server-dev-$POSTGRESQL_VERSION postgresql-common
+  - if [[ $POSTGRESQL_VERSION == '9.6' ]]; then sudo apt-get install -y postgresql-contrib-9.6; fi;
+  - sudo apt-get install -y --allow-unauthenticated postgresql-$POSTGRESQL_VERSION-postgis-$POSTGIS_VERSION postgresql-$POSTGRESQL_VERSION-postgis-$POSTGIS_VERSION-scripts postgis
+  - sudo pg_dropcluster --stop $POSTGRESQL_VERSION main
+  - sudo rm -rf /etc/postgresql/$POSTGRESQL_VERSION /var/lib/postgresql/$POSTGRESQL_VERSION
+  - sudo pg_createcluster -u postgres $POSTGRESQL_VERSION main -- --auth-local trust --auth-host password
+  - sudo /etc/init.d/postgresql start $POSTGRESQL_VERSION || sudo journalctl -xe
+  - sudo psql -U postgres -c "create database testing_postgis_vt_util"
+  - sudo psql -U postgres -d testing_postgis_vt_util -c "create extension postgis"
+  - sudo psql -U postgres -d testing_postgis_vt_util -c "select version()"
+  - sudo psql -U postgres -d testing_postgis_vt_util -c "select postgis_version()"
+  - npm test
+
