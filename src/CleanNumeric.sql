@@ -12,14 +12,14 @@ __Returns:__ `numeric`
 create or replace function CleanNumeric (i text) returns numeric as
 $func$
 select case
-            when test[1] in ('','.') then null
+            when test[1] in ('', '.') then null
             else cast(cast(test[1] as float) as numeric)
         end as result
 from (
     select array_agg(i) as test
     from (
-        select (regexp_matches($1,'^[\ ]*?([-+]?[0-9]*\.?[0-9]*?(e[-+]?[0-9]+)?)[\ ]*?$','i'))[1] i
-    )  t
+        select (regexp_matches($1, '^[\ ]*?([-+]?[0-9]*\.?[0-9]*?(e[-+]?[0-9]+)?)[\ ]*?$', 'i'))[1] i
+    ) t
 ) _;
 $func$
 language sql 

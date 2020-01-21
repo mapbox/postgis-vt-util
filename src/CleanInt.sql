@@ -12,7 +12,7 @@ __Returns:__ `integer`
 create or replace function CleanInt (i text) returns integer as
 $func$
 select case
-            when test[1] in ('','.') then null
+            when test[1] in ('', '.') then null
             else
                 case
                     when cast(test[1] as numeric) > 2147483647 then null
@@ -23,8 +23,8 @@ select case
 from (
     select array_agg(i) as test
     from (
-        select (regexp_matches($1,'^[\ ]*?([-+]?[0-9]*\.?[0-9]*?(e[-+]?[0-9]+)?)[\ ]*?$','i'))[1] i
-    )  t
+        select (regexp_matches($1, '^[\ ]*?([-+]?[0-9]*\.?[0-9]*?(e[-+]?[0-9]+)?)[\ ]*?$', 'i'))[1] i
+    ) t
 ) _;
 $func$
 language sql 
