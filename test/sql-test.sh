@@ -45,24 +45,68 @@ tf "" "select array_agg(i) from \
     "{0.00089832,0.00089832,0.00269495,0.00269495}"
 
 # CleanInt
+tf CleanInt "null"             "\\N"
 tf CleanInt "'.'"              "\\N"
 tf CleanInt "''"               "\\N"
+tf CleanInt "'-'"              "\\N"
+tf CleanInt "'+'"              "\\N"
 tf CleanInt "'foobar'"         "\\N"
+tf CleanInt "'e'"              "\\N"
+tf CleanInt "'E'"              "\\N"
+tf CleanInt "'e2'"             "\\N"
+tf CleanInt "'E2'"             "\\N"
+tf CleanInt "'.e'"             "\\N"
+tf CleanInt "'.E'"             "\\N"
+tf CleanInt "'1e'"             "\\N"
+tf CleanInt "'1E'"             "\\N"
+tf CleanInt "'1.e'"            "\\N"
+tf CleanInt "'1.E'"            "\\N"
+tf CleanInt "'.e2'"            "\\N"
+tf CleanInt "'.E2'"            "\\N"
+tf CleanInt "'a123'"           "\\N"
+tf CleanInt "'123a'"           "\\N"
 tf CleanInt "'9999999999'"     "\\N"  # out of range, returns null
-tf CleanInt "'-2147483649'"    "\\N"  # one less than the smallest possible int
-tf CleanInt "'2147483647'"     "2147483647"  # largest possible int
-tf CleanInt "'-2147483648'"    "-2147483648"  # smallest possible int
+tf CleanInt "'-9999999999'"    "\\N"
+tf CleanInt "'123'"            "123"
+tf CleanInt "'+42'"            "42"   # allowed plus symbol
+tf CleanInt "'+42.123'"        "42"
 tf CleanInt "'123.456'"        "123"  # round down
 tf CleanInt "'456.789'"        "457"  # round up
-tf CleanInt "'  456.789  '"    "457"  # round up with trimming
+tf CleanInt "'  456.789   '"   "457"  # round up with trimming
+tf CleanInt "'456.789e2'"      "45679"  # int with exp, round up
+# INT range check
+tf CleanInt "'-2147483649'"    "\\N"  # one less than the smallest possible int
+tf CleanInt "'2147483648'"     "\\N"  # one more than the largest possible int
+tf CleanInt "'2147483647'"     "2147483647"  # largest possible int
+tf CleanInt "'-2147483648'"    "-2147483648"  # smallest possible int
+
 
 # CleanNumeric
+tf CleanNumeric "null"             "\\N"
 tf CleanNumeric "'.'"              "\\N"
 tf CleanNumeric "''"               "\\N"
+tf CleanNumeric "'-'"              "\\N"
+tf CleanNumeric "'+'"              "\\N"
 tf CleanNumeric "'foobar'"         "\\N"
+tf CleanNumeric "'e'"              "\\N"
+tf CleanNumeric "'E'"              "\\N"
+tf CleanNumeric "'e2'"             "\\N"
+tf CleanNumeric "'E2'"             "\\N"
+tf CleanNumeric "'.e'"             "\\N"
+tf CleanNumeric "'.E'"             "\\N"
+tf CleanNumeric "'1e'"             "\\N"
+tf CleanNumeric "'1E'"             "\\N"
+tf CleanNumeric "'1.e'"            "\\N"
+tf CleanNumeric "'1.E'"            "\\N"
+tf CleanNumeric "'.e2'"            "\\N"
+tf CleanNumeric "'.E2'"            "\\N"
+tf CleanNumeric "'a123'"           "\\N"
+tf CleanNumeric "'123a'"           "\\N"
 tf CleanNumeric "'9999999999'"     "9999999999"
 tf CleanNumeric "'-9999999999'"    "-9999999999"
 tf CleanNumeric "'123'"            "123"
+tf CleanNumeric "'+42'"            "42"
+tf CleanNumeric "'+42.123'"        "42.123"
 tf CleanNumeric "'123.456'"        "123.456"
 tf CleanNumeric "'456.789'"        "456.789"
 tf CleanNumeric "'  456.789   '"   "456.789"

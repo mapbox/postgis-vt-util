@@ -10,24 +10,16 @@ __Parameters:__
 __Returns:__ `integer`
 ******************************************************************************/
 create or replace function CleanInt (i text) returns integer as
-$func$
-select case
-            when test[1] in ('', '.') then null
-            else
-                case
-                    when cast(test[1] as numeric) > 2147483647 then null
-                    when cast(test[1] as numeric) < -2147483648 then null
-                    else cast(cast(test[1] as float) as integer)
-                end
-        end as result
-from (
-    select array_agg(i) as test
-    from (
-        select (regexp_matches($1, '^[\ ]*?([-+]?[0-9]*\.?[0-9]*?(e[-+]?[0-9]+)?)[\ ]*?$', 'i'))[1] i
-    ) t
-) _;
-$func$
-language sql 
-strict immutable cost 50
+$body$
+declare n numeric := substring(i from '^\s*([-+]?(?=\d|\.\d)\d*(?:\.\d*)?(?:[Ee][-+]?\d+)?)\s*$');
+begin
+    if n not between -2147483648 and 2147483647 then
+        return null;
+    else
+        return n::float8::integer;
+    end if;
+end;
+$body$
+language plpgsql
+strict immutable cost 20
 parallel safe;
-
