@@ -23,7 +23,8 @@ UPDATE water_polygons SET geom = ST_Simplify(geom, ZRes(10));
 create or replace function ZRes (z integer)
     returns float
     returns null on null input
-    language sql immutable as
+    language sql immutable
+    parallel safe as
 $func$
 select (40075016.6855785/(256*2^z));
 $func$;
@@ -31,7 +32,8 @@ $func$;
 create or replace function ZRes (z float)
     returns float
     returns null on null input
-    language sql immutable as
+    language sql immutable
+    parallel safe as
 $func$
 select (40075016.6855785/(256*2^z));
 $func$;

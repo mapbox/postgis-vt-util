@@ -16,7 +16,8 @@ __Returns:__ `geometry(polygon)`
 ******************************************************************************/
 create or replace function TileBBox (z int, x int, y int, srid int = 3857)
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 declare
     max numeric := 20037508.34;

@@ -9,18 +9,12 @@ __Parameters:__
 
 __Returns:__ `numeric`
 ******************************************************************************/
-create or replace function CleanNumeric (i text)
-    returns numeric
-    language plpgsql immutable as
-$$
+create or replace function CleanNumeric (i text) returns numeric as
+$body$
 begin
-    return cast(cast(i as float) as numeric);
-exception
-    when invalid_text_representation then
-        return null;
-    when numeric_value_out_of_range then
-        return null;
+    return substring(i from '^\s*([-+]?(?=\d|\.\d)\d*(?:\.\d*)?(?:[Ee][-+]?\d+)?)\s*$')::numeric;
 end;
-$$;
-
-
+$body$
+language plpgsql
+strict immutable cost 20
+parallel safe;

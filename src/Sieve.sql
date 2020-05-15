@@ -12,7 +12,8 @@ __Returns:__ `geometry` - a polygon or multipolygon
 ******************************************************************************/
 create or replace function Sieve (g geometry, area_threshold float)
     returns geometry
-    language sql immutable as
+    language sql immutable
+    parallel safe as
 $func$
     with exploded as (
         -- First use ST_Dump to explode the input multipolygon
@@ -32,7 +33,8 @@ $func$;
 
 create or replace function Sieve (g geometry, area_threshold integer)
     returns geometry
-    language sql immutable as
+    language sql immutable
+    parallel safe as
 $func$
     with exploded as (
         -- First use ST_Dump to explode the input multipolygon
