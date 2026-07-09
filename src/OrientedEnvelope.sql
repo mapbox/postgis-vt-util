@@ -11,7 +11,8 @@ __Returns:__ `geometry(polygon)`
 ******************************************************************************/
 create or replace function OrientedEnvelope (g geometry)
     returns geometry(polygon)
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 declare
     p record;

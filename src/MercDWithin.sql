@@ -20,7 +20,8 @@ create or replace function MercDWithin (
         distance numeric
     )
     returns boolean
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     return ST_Dwithin(

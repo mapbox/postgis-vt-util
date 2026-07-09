@@ -23,7 +23,8 @@ UPDATE city_park SET geom_label = ToPoint(geom);
 ******************************************************************************/
 create or replace function ToPoint (g geometry)
     returns geometry(point)
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     g := ST_MakeValid(g);

@@ -35,7 +35,8 @@ create or replace function LabelGrid (
         grid_size numeric
     )
     returns text
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 begin
     if grid_size <= 0 then

@@ -23,7 +23,8 @@ create or replace function SmartShrink(
         simplify boolean = false
     )
     returns geometry
-    language plpgsql immutable as
+    language plpgsql immutable
+    parallel safe as
 $func$
 declare
     full_area float := ST_Area(geom);

@@ -9,18 +9,17 @@ __Parameters:__
 
 __Returns:__ `integer`
 ******************************************************************************/
-create or replace function CleanInt (i text)
-    returns integer
-    language plpgsql immutable as
-$func$
+create or replace function CleanInt (i text) returns integer as
+$body$
+declare n numeric := substring(i from '^\s*([-+]?(?=\d|\.\d)\d*(?:\.\d*)?(?:[Ee][-+]?\d+)?)\s*$');
 begin
-    return cast(cast(i as float) as integer);
-exception
-    when invalid_text_representation then
+    if n not between -2147483648 and 2147483647 then
         return null;
-    when numeric_value_out_of_range then
-        return null;
+    else
+        return n::float8::integer;
+    end if;
 end;
-$func$;
-
-
+$body$
+language plpgsql
+strict immutable cost 20
+parallel safe;
